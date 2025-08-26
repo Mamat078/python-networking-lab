@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Récupérer le code
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      # 2. Installer Python
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      # 3. Installer les dépendances
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # 4. Vérifier formatage Black
+      - name: Run Black
+        run: black --check .
+
+      # 5. Vérifier Ruff (lint)
+      - name: Run Ruff
+        run: ruff check .
+
+      # 6. Lancer les tests Pytest
+      - name: Run Pytest
+        run: pytest -q --disable-warnings
