@@ -1,5 +1,4 @@
-# Python Networking Lab 
-![CI](https://github.com/<TON_USER>/<TON_REPO>/actions/workflows/ci.yml/badge.svg)
+# Python Networking Lab  ![CI](https://github.com/Mamat078/python-networking-lab/actions/workflows/ci.yml/badge.svg)
 
 
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
