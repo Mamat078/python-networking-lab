@@ -12,3 +12,5 @@ pytest-cov>=5.0.0
 black>=24.3.0
 ruff>=0.5.0
 pre-commit>=3.6.0
+paramiko==3.3.1
+netmiko>=4.3,<5
