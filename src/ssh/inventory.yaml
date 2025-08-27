@@ -1,0 +1,21 @@
+defaults:
+  username: ${SSH_USERNAME}
+  password: ${SSH_PASSWORD}
+  device_type: cisco_ios
+  fast_cli: true
+
+groups:
+  nex:
+    username: ${SSH_NEX_USERNAME}
+    password: ${SSH_NEX_PASSWORD}
+
+hosts:
+  IOS_XRv:
+    host: 10.10.20.35
+  CAT8Kv:
+    host: 10.10.20.48
+  Ubuntu_Devbox:
+    host: 10.10.20.50
+  N9k:
+    host: 10.10.20.40
+    groups: [nex]
