@@ -16,6 +16,22 @@ def parse_args():
     return p.parse_args()
 
 
+def load_commands(path):
+    with open(path) as f:
+        cmds = []
+        for line in f:
+            # supprimer espaces en début/fin
+            line = line.strip()
+            if not line:
+                continue
+            # couper au premier #
+            if "#" in line:
+                line = line.split("#", 1)[0].strip()
+            if line:  # éviter d'ajouter une chaîne vide
+                cmds.append(line)
+            return cmds
+
+
 def main():
     args = parse_args()
     outdir = pathlib.Path(args.outdir) / timestamp()
@@ -23,6 +39,8 @@ def main():
 
     # (on remplira ici)
     print(f"Écrira les résultats dans: {outdir}")
+    commands = load_commands(args.commands)
+    print("Commandes:", commands)
 
 
 if __name__ == "__main__":
