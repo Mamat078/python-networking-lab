@@ -1,6 +1,10 @@
 import argparse
 import time
 import pathlib
+import os
+import yaml
+import re
+from dotenv import load_dotenv
 
 
 def timestamp():
@@ -16,20 +20,47 @@ def parse_args():
     return p.parse_args()
 
 
-def load_commands(path):
+def env_interp(v):
+    if isinstance(v, str) and v.startswith("${") and v.endswith("}"):
+        return os.getenv(v[2:-1], "")
+    return v
+
+
+def load_inventory(path):
+    load_dotenv()  # lit .env
     with open(path) as f:
-        cmds = []
-        for line in f:
-            # supprimer espaces en début/fin
+        data = yaml.safe_load(f) or {}
+    defaults = {k: env_interp(v) for k, v in (data.get("defaults") or {}).items()}
+    hosts = []
+    for name, h in (data.get("hosts") or {}).items():
+        h = {k: env_interp(v) for k, v in (h or {}).items()}
+        cfg = dict(defaults)
+        cfg.update(h)  # defaults < host
+        host_cfg = {
+            "name": name,
+            "host": cfg["host"],
+            "device_type": cfg.get("device_type", "cisco_ios"),
+            "username": cfg.get("username"),
+            "password": cfg.get("password"),
+            "secret": cfg.get("secret"),
+            "fast_cli": bool(cfg.get("fast_cli", True)),
+            "port": int(cfg.get("port", 22)),
+        }
+        hosts.append(host_cfg)
+    return hosts
+
+
+def load_commands(path):
+    cmds = []
+    with open(path, encoding="utf-8") as f:
+        for raw in f:
+            line = raw.rstrip("\r\n")  # normalise fin de ligne
+            line = re.sub(r"\s+#.*$", "", line)  # enlève commentaire inline
             line = line.strip()
-            if not line:
+            if not line:  # skip vides / comment-only
                 continue
-            # couper au premier #
-            if "#" in line:
-                line = line.split("#", 1)[0].strip()
-            if line:  # éviter d'ajouter une chaîne vide
-                cmds.append(line)
-            return cmds
+            cmds.append(line)
+    return cmds
 
 
 def main():
@@ -41,6 +72,8 @@ def main():
     print(f"Écrira les résultats dans: {outdir}")
     commands = load_commands(args.commands)
     print("Commandes:", commands)
+    hosts = load_inventory(args.inventory)
+    print("Inventaire:", [h["name"] for h in hosts])
 
 
 if __name__ == "__main__":
