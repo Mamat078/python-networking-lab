@@ -15,3 +15,13 @@ Exercise repository for learning Python applied to networking:
 
 -Source of Truth (NetBox API)
 
+_Repo testé sur [Cisco DevNet Sandbox](https://developer.cisco.com/site/sandbox/) – IOS XE on Cat8kv._
+## Cisco DevNet Sandbox Connection
+
+Pour accéder au lab, connexion via **OpenConnect** :
+
+```bash
+# Exemple de connexion au sandbox IOS XE on Cat8kv
+sudo openconnect FQDN:port \
+    --user=username
+--> password
