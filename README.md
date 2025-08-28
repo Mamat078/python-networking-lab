@@ -2,44 +2,41 @@
 
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 
-_Network Automation Lab_
+# Network Automation Lab
 
-This repository is my personal learning lab for network automation. The project is written in Python and currently makes use of:
 
-Netmiko → for establishing SSH sessions to network devices and executing commands.
+This repository is my personal learning lab for **network automation**. The project is written in **Python** and currently makes use of:  
 
-NAPALM → for abstracted multi-vendor management (retrieving facts, pushing configs, comparing diffs).
-
-The goal of this repo is to progressively build a solid foundation in automation as part of my journey toward the CCNP certification.
-
-Current Progress
-
-Built Python scripts to connect to Cisco devices using Netmiko.
-
-Automated execution of show commands and backups.
-
-Started experimenting with NAPALM for configuration management and state retrieval.
-
-Next Steps
-
-Explore Ansible for playbook-based orchestration.
-
-Learn Terraform for infrastructure-as-code approaches to networking.
-
-Integrate tests and best practices for repeatable automation workflows.
-
-Why this project?
-
-I want to move beyond manual CLI work and learn how to:
-
-Automate repetitive network operations.
-
-Standardize configuration management.
-
-Gain hands-on practice with the same tools used in professional environments.
+- **Netmiko** · establish SSH sessions to network devices  
+- **NAPALM** · abstracted multi-vendor management (facts, configs, diffs)  
 
 ---
 
+### Current Progress  
+- Built Python scripts to connect to Cisco devices using Netmiko.  
+- Automated execution of *show* commands and backups.  
+- Started experimenting with NAPALM for configuration management and state retrieval.  
+
+---
+
+### Next Steps  
+- Orchestration (Nornir + Jinja2)
+- Validation (pyATS/Genie)
+- Source of Truth (NetBox API)
+- Explore **Ansible** for playbook-based orchestration.  
+- Learn **Terraform** for infrastructure-as-code approaches.  
+- Integrate tests and best practices for repeatable workflows.  
+
+---
+
+### Why this project?  
+I want to move beyond manual CLI work and learn how to:  
+- Automate repetitive network operations  
+- Standardize configuration management  
+- Gain hands-on practice with the same tools used in professional environments  
+
+
+---
 _Exercise repository for learning Python applied to networking:_
 
 -SSH automation (Netmiko)
@@ -52,13 +49,14 @@ _Exercise repository for learning Python applied to networking:_
 
 -Source of Truth (NetBox API)
 
-_Repo testé sur [Cisco DevNet Sandbox](https://developer.cisco.com/site/sandbox/) – IOS XE on Cat8kv._
+_Tested on [Cisco DevNet Sandbox](https://developer.cisco.com/site/sandbox/) – IOS XE on Cat8kv._  
+
 ## Cisco DevNet Sandbox Connection
 
-Pour accéder au lab, connexion via **OpenConnect** :
+You can access to the lab through **OpenConnect** :
 
 ```bash
-# Exemple de connexion au sandbox IOS XE on Cat8kv
+# Example of connection at the sandbox environnement
 sudo openconnect FQDN:port \
     --user=username
 --> password
