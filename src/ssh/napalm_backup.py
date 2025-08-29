@@ -1,10 +1,11 @@
+# src/ssh/napalm_backup_all.py
 import os
 import json
 import pathlib
 import time
+import yaml
 from napalm import get_network_driver
 from dotenv import load_dotenv
-import yaml
 
 
 def ts():
@@ -18,17 +19,24 @@ def env_interp(v):
 
 
 def _select_creds(host_cfg):
-    """Choisit user/pass selon groups + variables d'env. Fallback = valeurs host_cfg."""
-    groups = host_cfg.get("groups") or []
-    if "nex" in groups:  # ex: groupe pour NX-OS
-        user = os.getenv("SSH_NEX_USERNAME") or host_cfg.get("username")
-        pwd = os.getenv("SSH_NEX_PASSWORD") or host_cfg.get("password")
-        # force device_type si absent
+    """Choisit les credentials en fonction du groupe."""
+    groups = host_cfg.get("groups", [])
+    # Host override direct
+    user = host_cfg.get("username")
+    pwd = host_cfg.get("password")
+
+    if "nex" in groups:  # NX-OS
+        user = user or os.getenv("SSH_NEX_USERNAME")
+        pwd = pwd or os.getenv("SSH_NEX_PASSWORD")
         if not host_cfg.get("device_type"):
             host_cfg["device_type"] = "cisco_nxos"
-    else:
-        user = os.getenv("SSH_USERNAME") or host_cfg.get("username")
-        pwd = os.getenv("SSH_PASSWORD") or host_cfg.get("password")
+
+    else:  # par défaut IOS/IOS-XE
+        user = user or os.getenv("SSH_USERNAME")
+        pwd = pwd or os.getenv("SSH_PASSWORD")
+        if not host_cfg.get("device_type"):
+            host_cfg["device_type"] = "cisco_ios"
+
     return user, pwd
 
 
@@ -43,16 +51,13 @@ def load_inventory(path="src/ssh/inventory.yaml"):
         cfg = dict(defaults)
         cfg.update(h)
         cfg["name"] = name
-        # sélecteur de credentials
         user, pwd = _select_creds(cfg)
-        cfg["username"] = user
-        cfg["password"] = pwd
+        cfg["username"], cfg["password"] = user, pwd
         hosts.append(cfg)
     return hosts
 
 
 def connect(h):
-    # map vers driver NAPALM
     devtype = (h.get("device_type") or "cisco_ios").lower()
     if "xr" in devtype:
         driver = "iosxr"
@@ -61,13 +66,13 @@ def connect(h):
     else:
         driver = "ios"
 
-    driver_cls = get_network_driver(driver)
+    drv = get_network_driver(driver)
     optional = {}
     if h.get("secret"):
         optional["secret"] = h["secret"]
     if h.get("port"):
         optional["port"] = int(h["port"])
-    dev = driver_cls(
+    dev = drv(
         hostname=h["host"],
         username=h["username"],
         password=h["password"],
@@ -81,10 +86,14 @@ def connect(h):
 def main():
     outdir = pathlib.Path("outputs/napalm_backups") / ts()
     outdir.mkdir(parents=True, exist_ok=True)
-
     results = []
+
     for h in load_inventory():
-        print(f"===> Backup {h['name']} ({h['host']})")
+        if h["name"] in ("IOS_XRv", "Ubuntu_Devbox"):
+            print(f"⏭ Skipping {h['name']} ({h['host']})")
+            continue  # on saute uniquement ce host
+
+        print(f"===> Backup {h['name']} ({h['host']}) group={h.get('groups')}")
         entry = {"host": h["name"], "ip": h["host"], "ok": False}
         try:
             dev = connect(h)
@@ -102,7 +111,7 @@ def main():
         results.append(entry)
 
     (outdir / "_summary.json").write_text(json.dumps(results, indent=2))
-    print(f"✔ backups in {outdir}")
+    print(f"✔ backups saved in {outdir}")
 
 
 if __name__ == "__main__":
