@@ -1,0 +1,13 @@
+# This requirement is to make in a own venv for netmiko testing purposes
+# Core
+netmiko==4.3.0
+paramiko==3.3.1
+python-dotenv==1.0.1
+PyYAML==6.0.2
+
+# Dev tools
+pytest==8.3.3
+pytest-cov==5.0.0
+black==24.8.0
+ruff==0.6.9
+pre-commit==3.8.0
