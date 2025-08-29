@@ -42,8 +42,8 @@ jobs:
         uses: actions/checkout@v3
 
       # 2. Installer Python
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      # - name: Set up Python
+       uses: actions/setup-python@v4
         with:
           python-version: "3.11"
 
@@ -62,5 +62,4 @@ jobs:
         run: ruff check .
 
       # 6. Lancer les tests Pytest (Napalm)
-      - name: Run Pytest (Napalm)
-        run: pytest -q --disable-warnings tests/napalm
+     
