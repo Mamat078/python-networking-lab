@@ -32,7 +32,7 @@ jobs:
 
       # 6. Lancer les tests Pytest (Netmiko)
       - name: Run Pytest (Netmiko)
-        run: pytest -q -
+        run: pytest -q
 
   napalm:
     runs-on: ubuntu-latest
