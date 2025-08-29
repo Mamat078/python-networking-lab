@@ -32,7 +32,7 @@ jobs:
 
       # 6. Lancer les tests Pytest (Netmiko)
       - name: Run Pytest (Netmiko)
-        run: pytest -q --disable-warnings tests/netmiko
+        run: pytest -q -
 
   napalm:
     runs-on: ubuntu-latest
@@ -63,4 +63,4 @@ jobs:
 
       # 6. Lancer les tests Pytest (Napalm)
       - name: Run Pytest (Napalm)
-        run: pytest -q --disable-warnings tests/napalm
+        run: pytest -q 
