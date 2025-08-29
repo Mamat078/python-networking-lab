@@ -20,7 +20,7 @@ jobs:
       - name: Install dependencies (Netmiko)
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements-netmiko-dev.txt
+          pip install -r requirements_netmiko.txt
 
       # 4. Vérifier formatage Black
       - name: Run Black
@@ -51,7 +51,7 @@ jobs:
       - name: Install dependencies (Napalm)
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements-napalm-dev.txt
+          pip install -r requirements_napalm.txt
 
       # 4. Vérifier formatage Black
       - name: Run Black
