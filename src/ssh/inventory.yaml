@@ -16,10 +16,11 @@ hosts:
   CAT8Kv:
     host: 10.10.20.48
     device_type: cisco_ios
+    groups: [router]
   Ubuntu_Devbox:
     host: 10.10.20.50
     device_type: cisco_ios
   N9k:
     host: 10.10.20.40
     device_type: cisco_ios
-    groups: [nex]
+    groups: [nex, switch]
