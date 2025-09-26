@@ -1,62 +1,71 @@
-# Python Networking Lab  ![CI](https://github.com/Mamat078/python-networking-lab/actions/workflows/ci.yml/badge.svg)
-
-[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
-
+# Python Networking Lab  ![CI](https://github.com/Mamat078/python-networking-lab/actions/workflows/ci.yml/badge.svg) [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 # Network Automation Lab
 
+This repository is my personal learning lab for **Python applied to Network Automation**.  
+The objective is to move beyond manual CLI work and explore how Python can streamline day-to-day network operations while providing hands-on practice with tools used in real environments.  
 
-This repository is my personal learning lab for **network automation**. The project is written in **Python** and currently makes use of:  
-
-- **Netmiko** · establish SSH sessions to network devices  
-- **NAPALM** · abstracted multi-vendor management (facts, configs, diffs)  
-
----
-
-### Current Progress  
-- Built Python scripts to connect to Cisco devices using Netmiko.  
-- Automated execution of *show* commands and backups.  
-- Started experimenting with NAPALM for configuration management and state retrieval.  
+Tested primarily on **Cisco DevNet Sandbox** (IOS XE on Cat8kv).  
 
 ---
 
-### Next Steps  
-- Orchestration (Nornir + Jinja2)
-- Validation (pyATS/Genie)
-- Source of Truth (NetBox API)
-- Explore **Ansible** for playbook-based orchestration.  
-- Learn **Terraform** for infrastructure-as-code approaches.  
-- Integrate tests and best practices for repeatable workflows.  
+## 🔧 Tools & Libraries
+
+- **[Netmiko](https://github.com/ktbyers/netmiko)** → SSH automation to network devices  
+- **[NAPALM](https://napalm.readthedocs.io/)** → Multi-vendor abstraction for retrieving facts, configs, and diffs  
+- **[Black](https://black.readthedocs.io/)** → Code formatter for consistent Python style  
+- **[Ruff](https://docs.astral.sh/ruff/)** → Linter and static analysis for clean, optimized code  
 
 ---
 
-### Why this project?  
-I want to move beyond manual CLI work and learn how to:  
-- Automate repetitive network operations  
+## 📂 Repository Structure
+
+- **`/source/ssh/`** → Contains Python scripts built during the learning phase:  
+  - **Command execution** → Automates common *show* commands on Cisco devices  
+  - **Configuration backup** → Retrieves and stores running configuration  
+
+> ⚠️ NAPALM testing is included, but command execution is limited due to **sandbox environment incompatibility** and restrictions.  
+
+---
+
+## 📈 Current Progress
+
+✅ Netmiko scripts for command execution  
+✅ Automated configuration backups  
+✅ CI/CD integration with Black + Ruff for clean code  
+⚠️ Limited NAPALM execution on Cisco Sandbox  
+
+---
+
+## 🧪 Why this project?
+
+This repository is an **exercise environment** to learn Python for networking:  
+
+1. **SSH automation** with Netmiko  
+2. **Multi-vendor data collection** with NAPALM  
+3. **Code quality & CI/CD** with Black + Ruff  
+
+It is meant as a stepping stone to:  
+- Automate repetitive network tasks  
 - Standardize configuration management  
-- Gain hands-on practice with the same tools used in professional environments  
-
+- Build habits aligned with professional workflows  
 
 ---
-_Exercise repository for learning Python applied to networking:_
 
--SSH automation (Netmiko)
+## 🚀 Next Stage
 
--Multi-vendor data collection (NAPALM)
+- The **infrastructure lab (CCNP-level topology)** used for advanced testing will be documented in a separate repo: **`infra-ccnp`**.  
+- The continuation of this project with **Ansible** for market-standard orchestration will be detailed in another dedicated repo: **`automatisation-ansible`**.  
 
--Orchestration (Nornir + Jinja2)
+This way, each part of the journey (Python basics, infra setup, Ansible orchestration) is modular and easy to follow.  
 
--Validation (pyATS/Genie)
+---
 
--Source of Truth (NetBox API)
+## 🖥️ Lab Environment
 
-_Tested on [Cisco DevNet Sandbox](https://developer.cisco.com/site/sandbox/) – IOS XE on Cat8kv._  
-
-## Cisco DevNet Sandbox Connection
-
-You can access to the lab through **OpenConnect** :
+Using Cisco DevNet Sandbox:  
 
 ```bash
-# Example of connection at the sandbox environnement
+# Example connection with OpenConnect
 sudo openconnect FQDN:port \
     --user=username
---> password
+# → Enter password when prompted
